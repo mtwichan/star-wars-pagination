@@ -85,7 +85,6 @@ export function PaginatedDataTable({
         <Button
           onClick={() => {
             const newPageIndex = page - 1;
-            console.log("page index >>>", newPageIndex);
             if (newPageIndex <= 0) {
               return;
             }
@@ -103,7 +102,7 @@ export function PaginatedDataTable({
             if (newPageIndex > maxPage) {
               return;
             }
-            console.log("page index >>>", newPageIndex);
+            
             setPagination(newPageIndex);
             table.nextPage();
           }}

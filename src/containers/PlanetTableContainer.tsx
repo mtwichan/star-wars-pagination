@@ -77,13 +77,11 @@ export const PlanetTableContainer: React.FC<PlanetTableContainerProps> = ({
     const selectedPlanetData = planetData.find((planet) => {
       return planet.name === selectedPlanet.planet;
     });
-    console.log("planet data >>>", selectedPlanetData);
+
     const residenceEndPoints = selectedPlanetData?.residents;
     setResidenceEndPoints(residenceEndPoints ? residenceEndPoints : []);
     setPlanetMetadata(selectedPlanetData ? [selectedPlanetData] : []);
   }, [selectedPlanet]);
-
-  console.log("planets >>>", data);
 
   if (isFetching) {
     return (

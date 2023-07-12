@@ -5,27 +5,43 @@ import { useQuery } from "@tanstack/react-query";
 
 import { DataTable } from "../components/DataTable";
 
-const columnHelper = createColumnHelper<any>();
+interface Residence {
+  name: string;
+  height: string;
+  mass: string;
+  hair_color: string;
+  skin_color: string;
+  eye_color: string;
+  birth_year: string;
+  gender: string;
+}
+
+interface PopulationTableContainerProps {
+  residenceEndPoints: string[];
+}
+
+const columnHelper = createColumnHelper<Residence>();
 
 const columnNames = [
-  { key: 'name', header: 'Name' },
-  { key: 'height', header: 'Height' },
-  { key: 'mass', header: 'Mass' },
-  { key: 'hair_color', header: 'Hair Color' },
-  { key: 'skin_color', header: 'Skin Color' },
-  { key: 'eye_color', header: 'Eye Color' },
-  { key: 'birth_year', header: 'Birthyear' },
-  { key: 'gender', header: 'Gender' },
+  { key: "name", header: "Name" },
+  { key: "height", header: "Height" },
+  { key: "mass", header: "Mass" },
+  { key: "hair_color", header: "Hair Color" },
+  { key: "skin_color", header: "Skin Color" },
+  { key: "eye_color", header: "Eye Color" },
+  { key: "birth_year", header: "Birthyear" },
+  { key: "gender", header: "Gender" },
 ];
 
 const columns = columnNames.map(({ key, header }) =>
   columnHelper.accessor(key, {
     cell: (info) => info.getValue(),
     header,
-  }),
+  })
 );
-export const PopulationTableContainer = ({ residenceEndPoints }) => {
-  console.log("residenceEndPoints fired >>>", residenceEndPoints);
+export const PopulationTableContainer: React.FC<
+  PopulationTableContainerProps
+> = ({ residenceEndPoints }) => {
   const [data, setData] = useState([]);
 
   const { isFetching, error } = useQuery({
@@ -44,14 +60,13 @@ export const PopulationTableContainer = ({ residenceEndPoints }) => {
           })
         )
       );
-      console.log("result >>>", result);
       setData(result);
       return result;
     },
   });
 
   if (isFetching) {
-    return <Spinner color="white" textAlign="center"/>
+    return <Spinner color="white" textAlign="center" />;
   }
   if (error) {
     return <>{`Error ... ${error}`}</>;

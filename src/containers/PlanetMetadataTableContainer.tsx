@@ -43,7 +43,6 @@ const columns = columnNames.map(({ key, header }) =>
 export const PlanetMetadataTableContainer: React.FC<
   PlanetMetadataTableContainerProps
 > = ({ planetMetadata }) => {
-  console.log("planet meta data >>>", planetMetadata);
   return (
     <>
       {planetMetadata.length > 0 ? (
