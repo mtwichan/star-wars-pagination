@@ -22,7 +22,7 @@ export function DataTable<Data extends object>({
   });
 
   return (
-    <Table size="xs" __css={{'table-layout': 'fixed', width: 'full'}}>
+    <Table size="xs" __css={{'tableLayout': 'fixed', width: 'full'}}>
       <Thead fontSize="xs">
         {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id}>

@@ -22,7 +22,7 @@ interface PopulationTableContainerProps {
 
 const columnHelper = createColumnHelper<Residence>();
 
-const columnNames = [
+const columnNames: { key: keyof Residence; header: string }[] = [
   { key: "name", header: "Name" },
   { key: "height", header: "Height" },
   { key: "mass", header: "Mass" },
@@ -34,7 +34,7 @@ const columnNames = [
 ];
 
 const columns = columnNames.map(({ key, header }) =>
-  columnHelper.accessor(key, {
+  columnHelper.accessor(key as keyof Residence, {
     cell: (info) => info.getValue(),
     header,
   })
@@ -42,16 +42,17 @@ const columns = columnNames.map(({ key, header }) =>
 export const PopulationTableContainer: React.FC<
   PopulationTableContainerProps
 > = ({ residenceEndPoints }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Residence[]>([]);
 
   const { isFetching, error } = useQuery({
     queryKey: ["getResidences", residenceEndPoints],
     queryFn: async () => {
-      const result = await Promise.all(
+      if (residenceEndPoints.length <= 0) return [];
+      const result: Residence[] = await Promise.all(
         residenceEndPoints.map((url) =>
-          fetch(url).then((res, reject) => {
+          fetch(url).then((res: Response) => {
             if (!res.ok)
-              return reject({
+              return Promise.reject({
                 error_type: "SERVER_ERROR",
                 error: true,
                 http_status: res.status,
@@ -61,7 +62,7 @@ export const PopulationTableContainer: React.FC<
         )
       );
       setData(result);
-      return result;
+      return result
     },
   });
 
@@ -69,7 +70,7 @@ export const PopulationTableContainer: React.FC<
     return <Spinner color="white" textAlign="center" />;
   }
   if (error) {
-    return <>{`Error ... ${error}`}</>;
+    return <>{`${String(error)}`}</>;
   }
   return (
     <>

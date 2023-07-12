@@ -5,11 +5,11 @@ import { ContentBox } from "./components/ContentBox";
 import { PlanetTableContainer } from "./containers/PlanetTableContainer";
 import { PlanetMetadataTableContainer } from "./containers/PlanetMetadataTableContainer";
 import { PopulationTableContainer } from "./containers/PopulationTableContainer";
-
+import { Planet } from "./utils/types";
 
 function App() {
   const [residenceEndPoints, setResidenceEndPoints] = useState<string[]>([]);
-  const [planetMetadata, setPlanetMetadata] = useState<any>([]);
+  const [planetMetadata, setPlanetMetadata] = useState<Planet[]>([]);
 
   return (
     <>

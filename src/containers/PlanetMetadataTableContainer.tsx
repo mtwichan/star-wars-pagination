@@ -2,18 +2,7 @@ import { Text } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 
 import { DataTable } from "../components/DataTable";
-
-interface Planet {
-  climate: string;
-  diameter: string;
-  gravity: string;
-  name: string;
-  orbital_period: string;
-  population: string;
-  rotation_period: string;
-  surface_water: string;
-  terrain: string;
-}
+import { Planet } from "../utils/types";
 
 interface PlanetMetadataTableContainerProps {
   planetMetadata: Planet[];
@@ -21,7 +10,7 @@ interface PlanetMetadataTableContainerProps {
 
 const columnHelper = createColumnHelper<Planet>();
 
-const columnNames = [
+const columnNames: {key: keyof Planet; header: string}[] = [
   { key: 'climate', header: 'Climate' },
   { key: 'diameter', header: 'Diameter' },
   { key: 'gravity', header: 'Gravity' },
@@ -34,7 +23,7 @@ const columnNames = [
 ];
 
 const columns = columnNames.map(({ key, header }) =>
-  columnHelper.accessor(key, {
+  columnHelper.accessor(key as keyof Planet, {
     cell: (info) => info.getValue(),
     header,
   }),

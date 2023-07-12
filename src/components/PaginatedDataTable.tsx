@@ -1,5 +1,4 @@
 import {
-  Table as ReactTable,
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,
@@ -19,11 +18,11 @@ export function PaginatedDataTable({
   setPagination,
 }: {
   data: any[];
-  columns: ColumnDef<any>[];
+  columns: ColumnDef<any | any, any>[];
   page: number;
-  maxPage: number | undefined;
-  setSelectedRow: any;
-  setPagination: any;
+  maxPage: number;
+  setSelectedRow: React.Dispatch<React.SetStateAction<any>>;
+  setPagination: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const table = useReactTable({
     data,
@@ -39,7 +38,7 @@ export function PaginatedDataTable({
     <>
       <Table
         __css={{
-          "table-layout": "fixed",
+          "tableLayout": "fixed",
           width: "full",
           borderCollapse: "separate",
           borderSpacing: "0 0.5rem",
@@ -55,7 +54,7 @@ export function PaginatedDataTable({
                 textAlign="left"
                 _hover={{ background: "darkseagreen" }}
                 _focus={{ background: "darkseagreen" }}
-                onClick={(e) => {
+                onClick={() => {
                   setSelectedRow(row.original);
                 }}
               >

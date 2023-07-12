@@ -14,7 +14,7 @@ interface Planet {
   climate: string;
   gravity: string;
   terrain: string;
-  surface_water: 1;
+  surface_water: number;
   population: number;
 }
 
@@ -40,20 +40,20 @@ export const PlanetTableContainer: React.FC<PlanetTableContainerProps> = ({
   setResidenceEndPoints,
   setPlanetMetadata,
 }) => {
-  const [data, setData] = useState<[]>([]);
-  const [planetData, setPlanetData] = useState<Planet | null>([]);
-  const [selectedPlanet, setSelectedPlanet] = useState<string>("");
+  const [data, setData] = useState<PlanetTable[]>([]);
+  const [planetData, setPlanetData] = useState<Planet[] | never[]>([]);
+  const [selectedPlanet, setSelectedPlanet] = useState<PlanetTable | undefined>(undefined);
   const [page, setPagination] = useState<number>(1);
-  const [maxPage, setMaxPage] = useState<number | undefined>(undefined);
+  const [maxPage, setMaxPage] = useState<number>(0);
 
   // Get planets and set the initial state
   const { error, isFetching } = useQuery({
     queryKey: ["getPlanets", page],
     queryFn: async () => {
-      const result = await SwapiAPI.getPlanets(page);
+      const result: {count: number, results: Planet[]} = await SwapiAPI.getPlanets(page);
 
-      const planetData = result?.results;
-      const tableData = planetData.map((res, _) => {
+      const planetData: Planet[] = result?.results;
+      const tableData = planetData.map((res: {name: string}) => {
         return { planet: res.name };
       });
 
