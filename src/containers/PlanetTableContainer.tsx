@@ -5,18 +5,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 
-interface Planet {
-  name: string;
-  residents: string[];
-  rotation_period: number;
-  orbital_period: number;
-  diameter: number;
-  climate: string;
-  gravity: string;
-  terrain: string;
-  surface_water: number;
-  population: number;
-}
+import { Planet } from "../utils/types";
 
 interface PlanetTable {
     planet: string;
@@ -58,7 +47,7 @@ export const PlanetTableContainer: React.FC<PlanetTableContainerProps> = ({
       });
 
       // Set max page initially
-      if (maxPage === undefined) {
+      if (maxPage === 0) {
         setMaxPage(result.count / 10);
       }
 
